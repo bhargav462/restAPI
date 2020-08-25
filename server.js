@@ -3,7 +3,7 @@ const colors = require('colors');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 
-const app = express();
+const app = express(); 
 
 app.use(morgan('dev'));
 
