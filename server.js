@@ -1,22 +1,53 @@
-const express = require('express');
-const colors = require('colors');
-const morgan = require('morgan');
-const dotenv = require('dotenv');
+        const express = require('express');
+        const colors = require('colors');
+        const morgan = require('morgan');
+        const dotenv = require('dotenv');
+        const mongoose = require('mongoose');
+        const bodyParser = require('body-parser');
+        const _ = require('lodash');
 
-const app = express(); 
+        const Items = require('./models/items');
 
-app.use(morgan('dev'));
+        const app = express(); 
 
-dotenv.config({
-    path: './config/config.env'
-})
+        mongoose.Promise = global.Promise;
 
-app.get('/todo',(req,res) => {
-    console.log("request");
-    res.status(200).send("bhargav");
-})
+        app.use(bodyParser.json());
+        app.use(bodyParser.urlencoded({ extended: true}))
 
-const PORT = process.env.PORT || 3000;
+        app.use(morgan('dev'));
 
-app.listen(PORT,
-    console.log(`Server running on port : ${PORT}`.red.underline.bold))
+        dotenv.config({
+            path: './config/config.env'
+        })
+
+        app.get('/todo',(req,res) => {
+            console.log("request");
+            res.status(200).send({"name":"bhargav"});
+        })
+
+        app.post('/addData',(req,res) => {
+        
+            var items = _.pick(req.body,['shopName','latitude','longitude','itemList']);
+
+            console.log(items);
+
+            const newItemList = new Items(items);
+
+            newItemList.save().then((result) => {
+                console.log(result);
+            })
+
+        res.send();
+        })
+
+        const PORT = process.env.PORT || 3000;
+
+        mongoose.connect(process.env.MONGO_URI,{useNewUrlParser:true}).then(result => {
+            var server = app.listen(PORT,(res) => {
+                console.log(`Server running on port : ${PORT}`.red.underline.bold);
+            })
+        }).catch(e => {
+            console.log('Unable to connect to the database');
+        })
+
