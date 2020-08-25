@@ -26,6 +26,11 @@
             res.status(200).send({"name":"bhargav"});
         })
 
+        app.post('/check',(req,res) => {
+            console.log(req.body);
+            res.send();
+        })
+
         app.post('/addData',(req,res) => {
         
             var items = _.pick(req.body,['shopName','latitude','longitude','itemList']);
@@ -40,6 +45,8 @@
 
         res.send();
         })
+
+        app.get('/itemsData')
 
         const PORT = process.env.PORT || 3000;
 
