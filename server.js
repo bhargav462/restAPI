@@ -28,7 +28,7 @@
 
         app.post('/check',(req,res) => {
             console.log(req.body);
-            res.send();
+            res.send({"name":"Bhargav"});
         })
 
         app.post('/addData',(req,res) => {
