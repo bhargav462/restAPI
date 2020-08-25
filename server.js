@@ -21,9 +21,12 @@
             path: './config/config.env'
         })
 
-        app.get('/todo',(req,res) => {
+        app.get('/getItemsList',(req,res) => {
             console.log("request");
-            res.status(200).send({"name":"bhargav"});
+            Items.find().then((itemResult) => {
+                console.log(itemResult);
+                 res.send(itemResult);
+            })
         })
 
         app.post('/check',(req,res) => {
