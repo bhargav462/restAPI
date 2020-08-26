@@ -24,7 +24,10 @@
         app.get('/getItemsList',(req,res) => {
             console.log("request");
             Items.find().then((itemResult) => {
-                res.json(itemResult);
+                var resultList = {};
+                resultList.totalItems = itemResult;
+                console.log(resultList)
+                res.json(resultList);
             })
         })
 
