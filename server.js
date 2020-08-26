@@ -24,10 +24,7 @@
         app.get('/getItemsList',(req,res) => {
             console.log("request");
             Items.find().then((itemResult) => {
-                var temp = JSON.stringify(itemResult);
-                console.log(itemResult);
-                console.log(temp);
-                 res.send(temp);
+                res.json(itemResult);
             })
         })
 
