@@ -24,8 +24,10 @@
         app.get('/getItemsList',(req,res) => {
             console.log("request");
             Items.find().then((itemResult) => {
+                var temp = JSON.stringify(itemResult);
                 console.log(itemResult);
-                 res.status(200).JSON(itemResult);
+                console.log(temp);
+                 res.send(temp);
             })
         })
 
@@ -48,8 +50,6 @@
 
         res.send();
         })
-
-        app.get('/itemsData')
 
         const PORT = process.env.PORT || 3000;
 
