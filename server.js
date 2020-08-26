@@ -25,7 +25,7 @@
             console.log("request");
             Items.find().then((itemResult) => {
                 console.log(itemResult);
-                 res.send(itemResult);
+                 res.status(200).JSON(itemResult);
             })
         })
 
