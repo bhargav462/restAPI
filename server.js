@@ -31,6 +31,25 @@
             })
         })
 
+        app.get('/getItems',(req,res) => {
+            Items.find().then((itemResult) => {
+                console.log(itemResult)
+                var itemDetails = new Set();
+                for(var i = 0; i < itemResult.length; i++)
+                {
+                    console.log('check' + itemResult[i].itemList.length);
+                    for(var j = 0; j < itemResult[i].itemList.length; j++)
+                    {
+                       itemDetails.add(itemResult[i].itemList[j]);
+                    }
+                }
+                console.log(itemDetails);
+                var items = {item:Array.from(itemDetails)}
+                console.log(items);
+                res.json(items);
+            })
+        })
+
         app.post('/check',(req,res) => {
             console.log(req.body);
             res.send({"name":"Bhargav"});
