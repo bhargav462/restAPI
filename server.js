@@ -48,6 +48,12 @@
             })
         })
 
+        app.get('/getImages',(req,res) => {
+            Photos.find().then((photoResult) => {
+                res.send({photosLength:photoResult.length});
+            })
+        })
+
         app.get('/image/:id',(req,res) => {
             Photos.find().then((photoResult) => {
                 console.log(req.params);
