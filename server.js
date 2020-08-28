@@ -40,11 +40,20 @@
             })
         })
 
-        app.get('/image',(req,res) => {
+        app.post('/addLargePhoto',upload.single('photo'),async (req,res) => {
+            var photo = new Photos();
+            photo.userPost = req.file.buffer;
+            photo.save().then((result) => {
+                res.send(result);
+            })
+        })
+
+        app.get('/image/:id',(req,res) => {
             Photos.find().then((photoResult) => {
+                console.log(req.params);
                 console.log(photoResult)
                 res.set('Content-Type','image/png');
-                res.send(photoResult[0].userPost);
+                res.send(photoResult[req.params.id].userPost);
             })
         })
 
