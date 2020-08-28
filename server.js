@@ -5,8 +5,18 @@
         const mongoose = require('mongoose');
         const bodyParser = require('body-parser');
         const _ = require('lodash');
+        const multer = require('multer');
+        const sharp = require('sharp');
 
         const Items = require('./models/items');
+        const Photos = require('./models/photos');
+
+        const upload = multer({
+            limits:{
+                fileSize: 40000000
+            }
+        })
+        
 
         const app = express(); 
 
@@ -19,6 +29,23 @@
 
         dotenv.config({
             path: './config/config.env'
+        })
+
+        app.post('/addPhoto',upload.single('photo'),async (req,res) => {
+            var photo = new Photos();
+            const buffer = await sharp(req.file.buffer).resize({width:250, height: 250}).png().toBuffer();
+            photo.userPost = buffer;
+            photo.save().then((result) => {
+                res.send(result);
+            })
+        })
+
+        app.get('/image',(req,res) => {
+            Photos.find().then((photoResult) => {
+                console.log(photoResult)
+                res.set('Content-Type','image/png');
+                res.send(photoResult[0].userPost);
+            })
         })
 
         app.get('/getItemsList',(req,res) => {
